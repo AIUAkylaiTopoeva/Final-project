@@ -46,6 +46,13 @@ INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
     'django.contrib.staticfiles',
 
+    'django.contrib.sites',  # Обязательно для Allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',  # Только если нужны социальные логины
+    'rest_framework.authtoken',  # Для работы с токенами
+    'dj_rest_auth',
+
     'accounts',
     'pages',
     'articles',
@@ -56,6 +63,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
+    'drf_yasg',
     
 ]
 
@@ -73,6 +81,7 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'news.urls'
@@ -148,7 +157,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ],
 }
 SIMPLE_JWT = {
@@ -188,3 +197,17 @@ CORS_ALLOWED_ORIGINS = [
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:3000",  
 ]
+
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'  # Allow login with username or email
+ACCOUNT_EMAIL_REQUIRED = True                     # Email is mandatory
+ACCOUNT_USERNAME_REQUIRED = True                  # Username is mandatory
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'          # Require email verification
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True        # Ask for password confirmation
+ACCOUNT_UNIQUE_EMAIL = True                       # Enforce unique emails
