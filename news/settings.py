@@ -14,6 +14,7 @@ from pathlib import Path
 
 from pathlib import Path
 from environs import Env
+from datetime import timedelta
 
 env = Env()
 env.read_env()
@@ -53,7 +54,8 @@ INSTALLED_APPS = [
     "crispy_forms", 
     "crispy_bootstrap5",
     'rest_framework',
-    'rest_framework_simplejwt'
+    'rest_framework_simplejwt',
+    'corsheaders',
     
 ]
 
@@ -62,6 +64,7 @@ TIME_ZONE = "America/New_York"
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -146,6 +149,12 @@ REST_FRAMEWORK = {
     ),
 }
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5), 
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),  
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -169,4 +178,5 @@ EMAIL_HOST_USER = "topoevaakylaj@gmail.com"
 EMAIL_HOST_PASSWORD = "bbuvjjxknawxogzs"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-# bbuv jjxk nawx ogzs
+
+CORS_ALLOW_ALL_ORIGINS = True
