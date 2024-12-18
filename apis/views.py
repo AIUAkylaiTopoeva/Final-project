@@ -13,10 +13,6 @@ class ArticleListCreateAPIView(generics.ListCreateAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
     permission_classes = [AllowAny]
-    @csrf_protect
-    def post(self, request, *args, **kwargs):
-        return super().post(request, *args, **kwargs)
-
 
 class ArticleDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Article.objects.all()
